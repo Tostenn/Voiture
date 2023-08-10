@@ -85,9 +85,6 @@ matricule : {self.matr}
 
     def essance(self):return self.reservoir,self.Mreservoir
 
-    # def rouler(self):
-    #     self.reservoir >
-
 class Poistion:
     '''gestion de la position et des deplacements'''
     positionPre = ''
