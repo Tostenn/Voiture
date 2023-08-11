@@ -33,7 +33,7 @@ choix.append(
 loadAnnim()
 input('votre voiture est désormais prête! (appuyer sur entrer pour continuer)')
 
-v = Voiture(choix[0],choix[1],choix[2])
+v = Voiture(choix[0],cl[choix[1]-1],format[choix[2]-1])
 position = Poistion()
 
 infoVoiture = f'''tableau de bord {v.nom}
