@@ -10,9 +10,8 @@ de votre voiture
 
 format = ['petit','moyen','grand']
 cl = ['rouge','bleu','vert']
-choix = ["main voiture",'red','moyen']
+choix = []
 
-'''
 choix.append(input('entrer le nom de votre voiture : '+vt))
 
 choix.append(
@@ -33,7 +32,6 @@ choix.append(
 
 loadAnnim()
 input('votre voiture est désormais prête! (appuyer sur entrer pour continuer)')
-'''
 
 v = Voiture(choix[0],choix[1],choix[2])
 position = Poistion()
