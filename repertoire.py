@@ -3,7 +3,21 @@ from json import load
 
 import os,sys
 
+def ver_t(t1,t2):return type(t1) == type(t2)
+def __veri_chemin__(chemin):
 
+  if os.path.exists(chemin):
+
+      if os.path.isdir(chemin):
+
+          return 'dossier'
+
+      else:
+
+          return 'ficher'
+
+  else : return False
+          
 def rlt(x = 0.3) -> True:'''renlanti le programme'''; sleep(x)
 
 def effter() :
@@ -45,7 +59,7 @@ def verch(info,erro = 'valeur innatendu!', deb = 0,fin = 3,arret=True,exp=[]):
             arret -= 1
             if arret <= 0:veri = False 
     return choix
-    # cet fonction d'obtenir le temps
+     
 
 def recujson(ch = 'data.json'):
     '''recupere les donners d'un fichier json'''
