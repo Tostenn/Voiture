@@ -9,6 +9,7 @@ vt = '\x1b[32m' #vert
 jg = '\x1b[33m' #jaune
 bl = '\x1b[37m' #blanc
 logo = f'{"T_xOx_T":-^50}'
+
 # chargement ----------
 def loadAnnim(ch = '#',msg = 'confection de votre voiture',nb=25,t=0.3):
     point = [i*'.' for i in range(1,4)]
@@ -18,6 +19,7 @@ def loadAnnim(ch = '#',msg = 'confection de votre voiture',nb=25,t=0.3):
         rlt(t)
         effter()
 
+# class-------------
 class Voiture:
     '''la voituere T_xOx_T\n
     propriete
@@ -34,11 +36,14 @@ class Voiture:
     marque = 'T_xOx_T'
     nbv = 0
     roule = False
-    def __init__(self,nom,couleur,format) -> None:
+    def __init__(self,nom='',couleur='',formats="moyen") -> None:
+        assert not nom.isdigit() and(nom.isalnum() or nom.isalpha()) and len(nom) > 2, 'Voiture.Error: name no int and nom < 2 '
+        assert couleur.isalpha(), 'Voiture.Error: couleur str no int ou alnum'
+        assert formats.isalpha(), 'Voiture.Error: format str no int ou alnum'
 
         self.nom  = nom
         self.cl = couleur
-        self.format = format
+        self.format = formats
         Voiture.nbv += 1
         self.serie = self.marque +'-'+str(randint(51,1594))+'-'+str(randint(51,1594))
         self.matr = f'{self.nom[:2]if len(self.nom)>=2 else self.nom}{randint(0,99)}-CI-{Voiture.nbv}'
@@ -47,20 +52,28 @@ class Voiture:
         else:self.Mreservoir = 1500
         self.reservoir = self.Mreservoir//2
     
-    def deco(func):
-        print(f'{"_"*7:_^50}')
-        print(f'{"T_xOx_T":=^50}')
-        # print(f'{"-"*7:-^50}')
-        return func
+    def isinstanceVoiture(self,other):
+        assert isinstance(other,Voiture) , f"Voiture.Error: {other} no instance of Voiture"
     
     def __eq__(self, other) -> bool:
-        '''
-        deux voiture sont identique si ils sont le meme format et la meme serie
-        '''
+        '''deux voiture sont identique si ils sont le meme format et la meme serie'''
+        self.isinstanceVoiture(other)
         return self.format == other.format and self.serie == other.serie
     
-    # @deco
-    def __repr__(self) -> str:
+    def __gt__(self,other) -> bool:
+        '''une voiture est superieux a une autre si elle a un meilleur format'''
+        formatV = ['petit','moyen','grand']
+        self.isinstanceVoiture(other)
+        return formatV.index(self.format) > formatV.index(other.format)
+    
+    def __lt__(self,other) -> bool:
+        '''une voiture est inférieur a une autre si elle a un faible format'''
+        formatV = ['petit','moyen','grand']
+        self.isinstanceVoiture(other)
+        return formatV.index(self.format) < formatV.index(other.format)
+
+    def __str__(self) -> str:
+        '''information lié au vehicule'''
         return f'''information lié votre véhicule
 marque : {self.marque}
 serie : {self.serie}
@@ -70,20 +83,27 @@ format : {self.format.upper()}
 matricule : {self.matr}
 '''
 
-    def Rempliresv(self,l):
+    def __repr__(self) -> str:
+        return f'Voiture(nom={self.nom}, couleur={self.cl},format={self.format})'
 
+    def Rempliresv(self,l):
+        """remplir le reservoie d'essence"""
         if self.reservoir> self.Mreservoir:
             return False
         self.reservoir+=l
         return self.reservoir
     
     def viderres(self,l):
+        """vider le reservoie d'essence"""
         if self.reservoir <=0:
             return False
         self.reservoir-=l
         return self.reservoir
 
-    def essance(self):return self.reservoir,self.Mreservoir
+    def essance(self) -> tuple:
+        '''essence disponible dans la voiture'''
+        return self.reservoir,self.Mreservoir
+
 
 class Poistion:
     '''gestion de la position et des deplacements'''
@@ -119,9 +139,25 @@ class Poistion:
         return abs(dataVille[-1]-p[-1])
   
 '''
+
 creer un reservoir pour la voiture en litre (L)
 faire un systeme de vide/rempli
 faire roule la voiture
 1km = 10L
 faire un classe lieux
+'''
+
+v = Voiture('voiture1','vert','petit')
+v2 = Voiture('voiture2','noir')
+v3 = Voiture('voiture3','bleu','grand')
+print(dir(v))
+'''
+print('-----------------------------')
+print(f'{v}\n{v2}\n{v3}')
+print('-----------------------------')
+print(f'v > v2 : {v > v2}\nv2 > v3 : {v2 > v3}\nv3 > v : {v3 > v}')
+print('-----------------------------')
+print(f'v < v2 : {v < v2}\nv2 < v3 : {v2 < v3}\nv3 < v : {v3 < v}')
+print('-----------------------------')
+print(f'v = v2 : {v == v2}\nv2 = v3 : {v2 == v3}\nv3 = v : {v3 == v}')
 '''
